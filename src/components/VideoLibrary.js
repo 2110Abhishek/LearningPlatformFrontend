@@ -15,15 +15,13 @@ const VideoLibrary = () => {
   const [videos, setVideos] = useState([]);
 
   useEffect(() => {
-    const fetchVideos = async () => {
-      try {
-        const res = await axios.get("http://localhost:5000/videos");
-        setVideos(res.data);
-      } catch (err) {
-        console.error("Error fetching videos:", err);
-      }
-    };
-    fetchVideos();
+    fetch(`${process.env.REACT_APP_API_URL}/videos`)
+      .then(res => res.json())
+      .then(data => {
+        console.log('Fetched videos:', data);
+        setVideos(data);
+      })
+      .catch(err => console.error('Error fetching videos:', err));
   }, []);
 
   return (
